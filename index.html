@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b1020">
+
+    <title>Nova Calc | Scientific Calculator</title>
+
+    <!-- External stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Calculator logic -->
+    <script src="calculator.js" defer></script>
+
+</head>
+
+<body>
+    <main class="calculator">
+
+        <!-- Header -->
+        <header class="calculator-header">
+            <div class="brand">
+                <span class="brand-icon">∑</span>
+                <div>
+                    <h1>NOVA <span>CALC</span></h1>
+                    <p>Scientific Calculator</p>
+                </div>
+            </div>
+
+            <button
+                type="button"
+                id="historyToggle"
+                class="icon-button"
+                aria-label="Show calculation history"
+                aria-controls="historyPanel"
+                aria-expanded="false"
+                title="Calculation history">
+                ↺
+            </button>
+        </header>
+
+        <!-- Display -->
+        <section class="display-panel" aria-label="Calculator display">
+            <div class="display-top">
+                <span id="modeLabel">DEG</span>
+                <span id="statusMessage" role="status" aria-live="polite">
+                    Ready
+                </span>
+            </div>
+
+            <label class="visually-hidden" for="display">
+                Mathematical expression
+            </label>
+
+            <input
+                type="text"
+                id="display"
+                class="display-input"
+                placeholder="0"
+                value=""
+                inputmode="decimal"
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false"
+                aria-label="Calculator expression"
+            >
+
+            <div
+                id="preview"
+                class="display-preview"
+                aria-live="polite">
+                0
+            </div>
+        </section>
+
+        <!-- Angle mode and utility controls -->
+        <section class="utility-row" aria-label="Calculator settings">
+            <button type="button" id="angleToggle" class="utility-button">
+                DEG / RAD
+            </button>
+
+            <button type="button" id="themeToggle" class="utility-button">
+                Light mode
+            </button>
+
+            <button type="button" id="clearHistory" class="utility-button">
+                Clear history
+            </button>
+        </section>
+
+        <!-- Calculation history -->
+        <aside id="historyPanel" class="history-panel" hidden>
+            <div class="history-heading">
+                <h2>Calculation History</h2>
+                <button
+                    type="button"
+                    id="closeHistory"
+                    class="icon-button"
+                    aria-label="Close history">
+                    ×
+                </button>
+            </div>
+
+            <p id="historyEmpty" class="history-empty">
+                Your calculations will appear here.
+            </p>
+
+            <ul id="historyList" class="history-list"></ul>
+        </aside>
+
+        <!-- Scientific calculator buttons -->
+        <section class="buttons" aria-label="Calculator buttons">
+
+            <!-- Row 1: Main controls -->
+            <button type="button" class="btn function clear"
+                    data-action="clear">AC</button>
+
+            <button type="button" class="btn function"
+                    data-action="backspace"
+                    aria-label="Backspace">⌫</button>
+
+            <button type="button" class="btn function"
+                    data-value="%">%</button>
+
+            <button type="button" class="btn operator"
+                    data-value="/">÷</button>
+
+            <!-- Row 2: Scientific functions -->
+            <button type="button" class="btn function"
+                    data-action="sin">sin</button>
+
+            <button type="button" class="btn function"
+                    data-action="cos">cos</button>
+
+            <button type="button" class="btn function"
+                    data-action="tan">tan</button>
+
+            <button type="button" class="btn function"
+                    data-action="sqrt">√</button>
+
+            <!-- Row 3 -->
+            <button type="button" class="btn number"
+                    data-value="7">7</button>
+
+            <button type="button" class="btn number"
+                    data-value="8">8</button>
+
+            <button type="button" class="btn number"
+                    data-value="9">9</button>
+
+            <button type="button" class="btn operator"
+                    data-value="*">×</button>
+
+            <!-- Row 4 -->
+            <button type="button" class="btn number"
+                    data-value="4">4</button>
+
+            <button type="button" class="btn number"
+                    data-value="5">5</button>
+
+            <button type="button" class="btn number"
+                    data-value="6">6</button>
+
+            <button type="button" class="btn operator"
+                    data-value="-">−</button>
+
+            <!-- Row 5 -->
+            <button type="button" class="btn number"
+                    data-value="1">1</button>
+
+            <button type="button" class="btn number"
+                    data-value="2">2</button>
+
+            <button type="button" class="btn number"
+                    data-value="3">3</button>
+
+            <button type="button" class="btn operator"
+                    data-value="+">+</button>
+
+            <!-- Row 6 -->
+            <button type="button" class="btn function"
+                    data-action="sign">±</button>
+
+            <button type="button" class="btn number"
+                    data-value="0">0</button>
+
+            <button type="button" class="btn number"
+                    data-value=".">.</button>
+
+            <button type="button" class="btn equals"
+                    data-action="equals">=</button>
+
+            <!-- Row 7: Extra scientific operations -->
+            <button type="button" class="btn function"
+                    data-action="square">x²</button>
+
+            <button type="button" class="btn function"
+                    data-value="^">xʸ</button>
+
+            <button type="button" class="btn function"
+                    data-action="reciprocal">1/x</button>
+
+            <button type="button" class="btn function"
+                    data-value="(">(</button>
+
+            <!-- Row 8: Constants and brackets -->
+            <button type="button" class="btn function"
+                    data-value=")">)</button>
+
+            <button type="button" class="btn function"
+                    data-value="π">π</button>
+
+            <button type="button" class="btn function"
+                    data-value="e">e</button>
+
+            <button type="button" class="btn function"
+                    data-action="log">log</button>
+
+            <!-- Row 9: More functions -->
+            <button type="button" class="btn function"
+                    data-action="ln">ln</button>
+
+            <button type="button" class="btn function"
+                    data-action="factorial">n!</button>
+
+            <button type="button" class="btn function"
+                    data-value="Ans">Ans</button>
+
+            <button type="button" class="btn function"
+                    data-action="percent">÷100</button>
+
+        </section>
+
+        <!-- Keyboard instructions -->
+        <footer class="calculator-footer">
+            <p>
+                Keyboard: 0–9, +, −, *, /, Enter, Backspace, Esc
+            </p>
+            <p>Made for quick and accurate calculations.</p>
+        </footer>
+
+    </main>
+</body>
+</html>

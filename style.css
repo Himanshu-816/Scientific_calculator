@@ -1,0 +1,664 @@
+/* =========================================
+   NOVA CALC - SCIENTIFIC CALCULATOR
+   Theme: Dark Navy & Blue
+========================================= */
+
+/* ---------- CSS Variables ---------- */
+:root {
+    --bg-color: #080d1b;
+    --card-color: #111a30;
+    --display-color: #080f20;
+    --button-color: #202d49;
+    --button-hover: #304466;
+    --operator-color: #245bd7;
+    --operator-hover: #3476f6;
+    --accent-color: #08b9e8;
+    --text-color: #f3f7ff;
+    --muted-color: #91a2c0;
+    --border-color: #293958;
+    --shadow-color: rgba(0, 0, 0, 0.35);
+    --danger-color: #ef476f;
+}
+
+/* ---------- Reset ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    min-height: 100vh;
+    padding: 28px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(36, 91, 215, 0.15),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at bottom right,
+            rgba(8, 185, 232, 0.10),
+            transparent 35%
+        ),
+        var(--bg-color);
+
+    color: var(--text-color);
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ---------- Calculator Card ---------- */
+.calculator {
+    width: 100%;
+    max-width: 430px;
+    padding: 24px;
+
+    background: var(--card-color);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+
+    box-shadow:
+        0 24px 60px var(--shadow-color),
+        0 0 30px rgba(36, 91, 215, 0.06);
+
+    position: relative;
+    overflow: hidden;
+
+    animation: appear 0.5s ease both;
+}
+
+.calculator::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 12%;
+    width: 76%;
+    height: 2px;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--accent-color),
+        #5b61ff,
+        transparent
+    );
+}
+
+/* ---------- Header ---------- */
+.calculator-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.brand-icon {
+    width: 43px;
+    height: 43px;
+    flex-shrink: 0;
+
+    display: grid;
+    place-items: center;
+
+    color: white;
+    font-size: 26px;
+    font-weight: 700;
+
+    border-radius: 13px;
+    background: linear-gradient(135deg, #245bd7, #08b9e8);
+    box-shadow: 0 5px 18px rgba(36, 91, 215, 0.3);
+}
+
+.brand h1 {
+    font-size: 20px;
+    letter-spacing: 2px;
+    font-weight: 800;
+}
+
+.brand h1 span {
+    color: var(--accent-color);
+}
+
+.brand p {
+    margin-top: 4px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--muted-color);
+}
+
+/* ---------- Icon Buttons ---------- */
+.icon-button {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+
+    display: grid;
+    place-items: center;
+
+    background: var(--button-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+
+    color: var(--text-color);
+    font-size: 25px;
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.icon-button:hover {
+    background: var(--button-hover);
+    transform: translateY(-2px);
+}
+
+/* ---------- Display Panel ---------- */
+.display-panel {
+    padding: 15px;
+    margin-bottom: 14px;
+
+    background: var(--display-color);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+
+    min-width: 0;
+    overflow: hidden;
+}
+
+.display-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+
+    color: var(--muted-color);
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+#modeLabel {
+    color: var(--accent-color);
+    font-weight: 700;
+}
+
+#statusMessage {
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+.display-input {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    padding: 8px 0;
+
+    background: transparent;
+    border: none;
+    outline: none;
+
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: clamp(24px, 6vw, 34px);
+    font-weight: 500;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.display-input::placeholder {
+    color: var(--muted-color);
+    opacity: 0.65;
+}
+
+.display-input:focus-visible {
+    outline: 1px solid var(--accent-color);
+    outline-offset: 4px;
+    border-radius: 3px;
+}
+
+.display-preview {
+    min-height: 28px;
+    margin-top: 8px;
+
+    color: var(--accent-color);
+    font-size: 21px;
+    font-weight: 600;
+    text-align: right;
+    overflow-wrap: anywhere;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Utility Controls ---------- */
+.utility-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.utility-button {
+    flex: 1 1 auto;
+    min-height: 35px;
+    padding: 8px 10px;
+
+    border: 1px solid var(--border-color);
+    border-radius: 9px;
+
+    background: transparent;
+    color: var(--muted-color);
+
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.utility-button:hover {
+    color: var(--text-color);
+    background: var(--button-color);
+    border-color: var(--operator-color);
+}
+
+/* ---------- Calculator Button Grid ---------- */
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+}
+
+/* ---------- Individual Buttons ---------- */
+.btn {
+    min-width: 0;
+    min-height: 54px;
+    padding: 8px 4px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid transparent;
+    border-radius: 12px;
+
+    background: var(--button-color);
+    color: var(--text-color);
+
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: 600;
+
+    cursor: pointer;
+    user-select: none;
+    touch-action: manipulation;
+
+    transition:
+        background 0.18s ease,
+        transform 0.18s ease,
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.btn:hover {
+    background: var(--button-hover);
+    border-color: rgba(145, 162, 192, 0.2);
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+.btn:focus-visible,
+.icon-button:focus-visible,
+.utility-button:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 3px;
+}
+
+/* Number Buttons */
+.btn.number {
+    background: var(--button-color);
+}
+
+/* Scientific Function Buttons */
+.btn.function {
+    color: #a9c8ff;
+    background: #182640;
+    font-size: 15px;
+}
+
+.btn.function:hover {
+    background: #263b60;
+    color: white;
+}
+
+/* Clear Button */
+.btn.clear {
+    background: rgba(239, 71, 111, 0.13);
+    color: var(--danger-color);
+    border-color: rgba(239, 71, 111, 0.12);
+}
+
+.btn.clear:hover {
+    background: rgba(239, 71, 111, 0.24);
+}
+
+/* Operator Buttons */
+.btn.operator {
+    background: var(--operator-color);
+    color: white;
+    font-size: 22px;
+}
+
+.btn.operator:hover {
+    background: var(--operator-hover);
+    box-shadow: 0 4px 15px rgba(36, 91, 215, 0.2);
+}
+
+/* Equals Button */
+.btn.equals {
+    background: linear-gradient(135deg, #08b9e8, #2586f5);
+    color: white;
+    font-size: 25px;
+    font-weight: 800;
+
+    box-shadow: 0 5px 16px rgba(8, 185, 232, 0.13);
+}
+
+.btn.equals:hover {
+    background: linear-gradient(135deg, #25cef5, #397cff);
+    box-shadow: 0 6px 22px rgba(8, 185, 232, 0.25);
+}
+
+/* ---------- History Panel ---------- */
+.history-panel {
+    margin-bottom: 18px;
+    padding: 15px;
+
+    background: var(--display-color);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+
+    animation: appear 0.25s ease both;
+}
+
+.history-panel[hidden] {
+    display: none;
+}
+
+.history-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.history-heading h2 {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.history-heading .icon-button {
+    width: 32px;
+    height: 32px;
+    font-size: 21px;
+}
+
+.history-empty {
+    padding: 14px 0;
+    color: var(--muted-color);
+    font-size: 13px;
+    text-align: center;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    max-height: 220px;
+    overflow-y: auto;
+    list-style: none;
+}
+
+.history-list li {
+    min-width: 0;
+}
+
+.history-item {
+    display: block;
+    width: 100%;
+    padding: 11px;
+
+    border: 1px solid var(--border-color);
+    border-radius: 9px;
+
+    background: var(--button-color);
+    color: var(--text-color);
+
+    text-align: right;
+    cursor: pointer;
+    overflow-wrap: anywhere;
+    font-family: inherit;
+}
+
+.history-item:hover {
+    border-color: var(--operator-color);
+    background: var(--button-hover);
+}
+
+.history-expression {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--muted-color);
+    font-size: 12px;
+}
+
+.history-result {
+    display: block;
+    color: var(--accent-color);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* ---------- Footer ---------- */
+.calculator-footer {
+    margin-top: 22px;
+    text-align: center;
+}
+
+.calculator-footer p {
+    margin-top: 6px;
+    color: var(--muted-color);
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+/* ---------- Accessibility ---------- */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---------- Light Theme ---------- */
+body.light-theme {
+    --bg-color: #edf2fb;
+    --card-color: #ffffff;
+    --display-color: #f4f7fd;
+    --button-color: #e9eef8;
+    --button-hover: #d7e3f8;
+    --operator-color: #245bd7;
+    --operator-hover: #3476f6;
+    --accent-color: #087da9;
+    --text-color: #18233b;
+    --muted-color: #63718b;
+    --border-color: #d4deee;
+    --shadow-color: rgba(31, 51, 89, 0.12);
+}
+
+body.light-theme .btn.function {
+    background: #e6edfb;
+    color: #245bd7;
+}
+
+body.light-theme .btn.function:hover {
+    background: #d5e2fa;
+}
+
+body.light-theme .btn.clear {
+    background: #fff0f3;
+    color: #d82f59;
+}
+
+body.light-theme .btn.operator,
+body.light-theme .btn.equals {
+    color: #ffffff;
+}
+
+body.light-theme .brand-icon {
+    color: #ffffff;
+}
+
+/* ---------- Animations ---------- */
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 600px) {
+    body {
+        padding: 18px 12px;
+        align-items: flex-start;
+    }
+
+    .calculator {
+        max-width: 430px;
+        padding: 19px;
+        border-radius: 20px;
+    }
+
+    .calculator-header {
+        margin-bottom: 19px;
+    }
+
+    .buttons {
+        gap: 8px;
+    }
+
+    .btn {
+        min-height: 51px;
+        border-radius: 10px;
+        font-size: 17px;
+    }
+
+    .btn.function {
+        font-size: 14px;
+    }
+}
+
+/* ---------- Small Mobile ---------- */
+@media (max-width: 360px) {
+    body {
+        padding: 10px 7px;
+    }
+
+    .calculator {
+        padding: 13px;
+        border-radius: 17px;
+    }
+
+    .brand h1 {
+        font-size: 17px;
+    }
+
+    .brand p {
+        font-size: 10px;
+    }
+
+    .brand-icon {
+        width: 37px;
+        height: 37px;
+        font-size: 22px;
+    }
+
+    .buttons {
+        gap: 6px;
+    }
+
+    .btn {
+        min-height: 46px;
+        padding: 5px 2px;
+        font-size: 15px;
+    }
+
+    .btn.function {
+        font-size: 12px;
+    }
+
+    .display-panel {
+        padding: 11px;
+    }
+
+    .display-preview {
+        font-size: 18px;
+    }
+
+    .utility-row {
+        gap: 6px;
+    }
+
+    .utility-button {
+        padding: 7px 5px;
+        font-size: 10px;
+    }
+}
+
+/* ---------- Reduced Motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
